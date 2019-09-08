@@ -10,8 +10,8 @@ def load_word():
     return secret_word
 
 def is_word_guessed(secret_word, letters_guessed):
-    '''
     
+    '''
     A function that checks if all the letters of the secret word have been guessed.
     Args:
         secret_word (string): the random word the user is trying to guess.
@@ -23,13 +23,17 @@ def is_word_guessed(secret_word, letters_guessed):
     pass
 
 def get_guessed_word(secret_word, letters_guessed):
+
     '''
-    A function that is used to get a string showing the letters guessed so far in the secret word and underscores for letters that have not been guessed yet.
+    A function that is used to get a string showing the letters guessed so far in
+    the secret word and underscores for letters that have not been guessed yet.
     Args: 
         secret_word (string): the random word the user is trying to guess.
         letters_guessed (list of strings): list of letters that have been guessed so far.
     Returns: 
-        string: letters and underscores.  For letters in the word that the user has guessed correctly, the string should contain the letter at the correct position.  For letters in the word that the user has not yet guessed, shown an _ (underscore) instead.
+        string: letters and underscores.  For letters in the word that the user has guessed correctly, 
+        the string should contain the letter at the correct position.  For letters in the word that the user has not yet guessed, 
+        shown an _ (underscore) instead.
     '''
 
     #TODO: Loop through the letters in secret word and build a string that shows the letters that have been guessed correctly so far that are saved in letters_guessed and underscores for the letters that have not been guessed yet
@@ -38,8 +42,11 @@ def get_guessed_word(secret_word, letters_guessed):
 
 
 def is_guess_in_word(guess, secret_word):
-    secret_list = list(secret_word)
-    return secret_list
+    for in letter in secret_word:
+        if guess == letter
+            return True
+        else:
+            return False
     '''
     if guess in secret_word
 
@@ -58,25 +65,31 @@ def is_guess_in_word(guess, secret_word):
 
     pass
 
-def rules():
-    return """The game is quite simple. You can guess a letter wrong 7 times until you fail.
-     If you get it right it doesn't count as a guess."""
+def userInputStart(promtps):
+    userInput = input(promtps)
+    return userInput
 
 def userInput(promtps):
-    userInput = input(promtps)[:1]
-    if userInput.isalpha():
-        return userInput.upper()
+    userInput = input(promtps)
+    if len(userInput) <= 1:
+        if userInput.isalpha():
+            return userInput.upper()
+        else:
+            return userInput("Please input only analphabetical character")
     else:
-        return userInput("please input one alphabetical character")
+        return userInput("please only input one character")
 
-def select():
-    if "M":
-        rules()
-    elif "P":
+def selectStart(function_code):
+    if function_code == "M" or function_code == "m":
+        print("\n The game is quite simple. You can guess a letter wrong 7 times until you fail. If you get it right it doesn't count as a guess. \n")
+        return True
+    elif function_code ==  "P" or function_code == "p":
         return False
-    elif "Q":
-        return False
-        
+    elif function_code ==  "Q" or function_code == 'q':
+        return "Quit"
+    else:
+        print("\n Please Type one of the three inputs \n")
+        return True
 
 
 def spaceman(secret_word):
@@ -88,8 +101,16 @@ def spaceman(secret_word):
     runningIntro = True
     runningGame = True
     while runningIntro:
-        selections= userInput("Hi Welcome to spaceman. press m if you would like to learn more about the game and rules. Press P if you would like to Play. To Quit please press Q")
-        select(selections)
+        selections= userInputStart("Hi Welcome to spaceman. press m if you would like to learn more about the game and rules. Press P if you would like to Play. To Quit please press Q: ")
+        runningIntro = selectStart(selections)
+        if runningIntro == "Quit":
+            runningIntro = False
+            runningGame = False
+            print("Thanks for trying out the Program :)")
+            return ""
+    while runningGame:
+          Selections = userInput()
+          
         # words = is_guess_in_word("stuff",secret_word)
     # return secret_word
 
