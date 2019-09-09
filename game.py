@@ -10,7 +10,6 @@ def load_word():
     return secret_word
 
 def is_word_guessed(secret_word, letters_guessed):
-    
     '''
     A function that checks if all the letters of the secret word have been guessed.
     Args:
@@ -19,8 +18,21 @@ def is_word_guessed(secret_word, letters_guessed):
     Returns: 
         bool: True only if all the letters of secret_word are in letters_guessed, False otherwise
     '''
+    secretDict = {}
+
+    for letter in secret_word:
+        if letter not in secretDict:
+            secretDict[letter] = 0
+        for guessLetter in letters_guessed:
+            if letter == guessLetter:
+                print(letter,guessLetter)
+                secretDict[letter] += 1
+
+    for secret_wordletter in secret_word:
+        if secretDict[secret_wordletter] == 0:
+            return False
+    return True
     # TODO: Loop through the letters in the secret_word and check if a letter is not in lettersGuessed
-    pass
 
 def get_guessed_word(secret_word, letters_guessed):
 
@@ -40,38 +52,31 @@ def get_guessed_word(secret_word, letters_guessed):
 
     pass
 
-
+# This function checks if the guess is one of the characters in the sectet word. It will return
+#  a true value if so or a false if not
 def is_guess_in_word(guess, secret_word):
-    for in letter in secret_word:
-        if guess == letter
+    for letter in secret_word:
+        if guess == letter:
             return True
         else:
             return False
-    '''
-    if guess in secret_word
+    # TODO: check if the letter guess is in the secret word
 
-        return True
-    else:
-
-        return False
-    A function to check if the guessed letter is in the secret word
-    Args:
-        guess (string): The letter the player guessed this round
-        secret_word (string): The secret word
-    Returns:
-        bool: True if the guess is in the secret_word, False otherwise
-    '''
-    #TODO: check if the letter guess is in the secret word
-
+# This function is for displaying the wrongly guessed words
+def wrongGuesses():
+    pass
+# This function is for displaying the letters that were guessed right
+def rightGuesses():
     pass
 
 def userInputStart(promtps):
     userInput = input(promtps)
     return userInput
 
+# This checks for user guessed input. It filters out other non analphabetical chatacters and only allows one character at a time. 
 def userInput(promtps):
     userInput = input(promtps)
-    if len(userInput) <= 1:
+    if len(userInput) <= 1 or "" != userInput:
         if userInput.isalpha():
             return userInput.upper()
         else:
