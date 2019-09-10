@@ -1,3 +1,5 @@
+# Testing file
+
 def get_guessed_word(secret_word, letters_guessed):
 # This function checks if the game is over
     secretDict = {} 
@@ -16,10 +18,10 @@ def get_guessed_word(secret_word, letters_guessed):
     #This looks for the zeros so it can fill in the missing letter with a underscore
     for secret_wordletter in secret_word:
         if secretDict[secret_wordletter] == 0:
-            string += " - "
+            string += "-"
         else:
             string += secret_wordletter
     return string
 
 
-                
+print(get_guessed_word("hello", ["h","l"]))

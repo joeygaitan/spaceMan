@@ -1,3 +1,4 @@
+#Inspired by spaceman project spec from the make school.
 import random
 
 def load_word():
@@ -28,6 +29,7 @@ def is_word_guessed(secret_word, letters_guessed):
             return False
     return True
 
+# This shows the word you typed in or - if you didn't type anything
 def get_guessed_word(secret_word, letters_guessed):
     # this is a dictionary to help check for inputs to  see if you won or not
     secretDict = {} 
@@ -54,23 +56,16 @@ def get_guessed_word(secret_word, letters_guessed):
 # characters in the sectet word. It will return
 # a true value if so or a false if not
 def is_guess_in_word(guess, secret_word):
+    # This is dictionary is for building an for the guess word. If the secret word 
+    guessDictionary = {}
     for letter in secret_word:
         if guess == letter:
             return True
         else:
             return False
-    # TODO: check if the letter guess is in the secret word
-
-# This function is for displaying the wrongly guessed words
-def wrongGuesses():
-    pass
-# This function is for displaying the 
-# letters that were guessed right
-def rightGuesses():
-    pass
 
 def userInputStart(promtps):
-    userInput = input(promtps)
+    userInput = input(promtps)[:1]
     return userInput
 
 # This checks for user guessed input. 
@@ -79,6 +74,9 @@ def userInputStart(promtps):
 #  at a time.
 def guessInput(promtps):
     userInput = input(promtps)
+    if userInput == "Quit":
+        print("Thanks for playing game")
+        return "quit game"
     if len(userInput) <= 1 or "" != userInput:
         if userInput.isalpha():
             return userInput.upper()
@@ -87,6 +85,7 @@ def guessInput(promtps):
     else:
         return guessInput("please only input one character")
 
+# This is for the user to start the game
 def selectStart(function_code):
     if function_code == "M" or function_code == "m":
         print("\n The game is quite simple. You can guess a letter wrong 7 times until you fail. If you get it right it doesn't count as a guess. \n")
@@ -100,15 +99,14 @@ def selectStart(function_code):
         return True
 
 def spaceman(secret_word):
-    '''
-    A function that controls the game of spaceman. Will start spaceman in the command line.
-    Args:
-      secret_word (string): the secret word to guess.
-    '''
+
+    letters_guessed = []
+    falseCount = 0
     runningIntro = True
     runningGame = True
     while runningIntro:
-        selections= userInputStart("\n Hi Welcome to spaceman. press m if you would like to learn more about\n the game and rules. Press P if you would like to Play. To Quit please press Q: ")
+        selections= userInputStart("""\n Hi Welcome to spaceman. press m if you would like to learn more about
+        the game and rules. Press P if you would like to Play. To Quit please press Q: """)
         runningIntro = selectStart(selections)
         if runningIntro == "Quit":
             runningIntro = False
@@ -116,21 +114,35 @@ def spaceman(secret_word):
             print("Thanks for trying out the Program :)")
             return ""
     while runningGame:
-          gameSelections = guessInput("")
-          runningGame = gameSelections
-          
-        # words = is_guess_in_word("stuff",secret_word)
-    # return secret_word
+        # 2 function calls. One displays the word with - where the user hasn't guessed yet. The other check if you won yet or not.
+        wordDisplay = get_guessed_word(secret_word, letters_guessed)
+        winCheck = is_word_guessed(secret_word, letters_guessed)
+        print("\nIf you would like to quit simply type (quit Game)\n")
+        userGuess = guessInput(f"Please Guess an input\n Tries left: {falseCount}\n guess word {wordDisplay or ''}")
+        letterCheck = is_guess_in_word(userGuess, secret_word)
+        if userGuess == "Quit":
+            print("\n Thanks for playing! \n")
+            return spaceman(load_word())
+        elif falseCount == 7:
+            print(f"Dang you lost. Here's the word you tried for{secret_word}. You can always try again <3. I wish you luck in the next code you run!")
+            return spaceman(load_word())
+        elif letterCheck == False:
+            letters_guessed.append(userGuess)
+            falseCount += 1
+            print(f"dang you guessed wrong. You have {7-falseCount} guesses left\n\n")
+        elif letterCheck == True:
+            letters_guessed.append(userGuess)
+            print("Awesome you guessed right!")
+        elif letterCheck == "Double":
+            print("You typed  in  the same guess! I'll let it slide this time >:[")
+        elif winCheck == True:
+            print("Great scotts you won!!!!!")
+            return spaceman(load_word())
+        
 
-    #TODO: show the player information about the game according to the project spece
-
-    #TODO: Ask the player to guess one letter per round and check that it is only one letter
-
-    #TODO: Check if the guessed letter is in the secret or not and give the player feedback
-
-    #TODO: show the guessed word so far
-
-    #TODO: check if the game has been won or lost
+        
+# words = is_guess_in_word("stuff",secret_word)
+# return secret_word
 
 
 
