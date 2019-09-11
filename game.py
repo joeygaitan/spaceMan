@@ -1,4 +1,4 @@
-#Inspired by spaceman project spec from the make school.
+#Inspired by spaceman project spec from the make school. <3
 import random
 
 def load_word():
@@ -52,15 +52,19 @@ def get_guessed_word(secret_word, letters_guessed):
             string += secret_wordletter
     print(string)
     return string
-
-# This function checks if the guess is one of the
-# characters in the sectet word. It will return
-# a true value if so or a false if not
+"""
+This function checks if the guess is one of the
+characters in the sectet word. It will return
+a true value if so or a false if not
+"""
 def is_guess_in_word(guess, secret_word):
     # This is dictionary is for building an for the guess word. If the secret word 
     # guessDictionary = {}
     for letter in secret_word:
+        print("In For loop")
+        print(guess, letter)
         if guess == letter:
+            print("In true condition")
             return True
         else:
             return False
@@ -69,11 +73,13 @@ def userInputStart(promtps):
     userInput = input(promtps)[:1]
     return userInput
 
-# This checks for user guessed input. 
-# It filters out other non analphabetical
-# chatacters and only allows one character
-#  at a time.
 def guessInput(promtps):
+"""
+ This checks for user guessed input. 
+It filters out other non analphabetical
+chatacters and only allows one character
+at a time.
+"""
     userInput = input(promtps).lower()
     if userInput == "Quit":
         print("Thanks for playing game")
@@ -88,8 +94,12 @@ def guessInput(promtps):
     else:
         return guessInput("please only input one character")
 
-# This is for the user to start the game
 def selectStart(function_code):
+"""
+This is for the user to start the game.
+It takes a few inputs.
+It returns True, False, or Quit String
+"""
     if function_code == "M" or function_code == "m":
         print("\n The game is quite simple. You can guess a letter wrong 7 times until you fail. If you get it right it doesn't count as a guess. \n")
         return True
@@ -122,14 +132,16 @@ def spaceman(secret_word):
         print(winCheck)
         print("\nIf you would like to quit simply type (quit Game)\n")
         userGuess = guessInput(f"Please Guess an input\n Tries left: {falseCount}\n guess character {wordDisplay or ''}\n: ")
+        is_guess_in_word(userGuess, secret_word)
         letterCheck = is_guess_in_word(userGuess, secret_word)
+        print(letterCheck, secret_word)
         if userGuess == "Quit":
             print("\n Thanks for playing! \n")
             return spaceman(load_word())
         elif letterCheck == False:
             letters_guessed.append(userGuess)
             falseCount -= 1
-            if falseCount == 7:e
+            if falseCount == 0:
                 print(f"Dang you lost. Here's the word you tried for{secret_word}. You can always try again <3. I wish you luck in the next code you run!")
                 return spaceman(load_word())
             print(f"dang you guessed wrong. You have {falseCount} guesses left\n\n")
