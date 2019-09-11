@@ -52,12 +52,13 @@ def get_guessed_word(secret_word, letters_guessed):
             string += secret_wordletter
     print(string)
     return string
+
+def is_guess_in_word(guess, secret_word):
 """
 This function checks if the guess is one of the
 characters in the sectet word. It will return
 a true value if so or a false if not
 """
-def is_guess_in_word(guess, secret_word):
     # This is dictionary is for building an for the guess word. If the secret word 
     # guessDictionary = {}
     for letter in secret_word:
@@ -70,7 +71,7 @@ def is_guess_in_word(guess, secret_word):
             return False
 
 def userInputStart(promtps):
-    userInput = input(promtps)[:1]
+    userInput = input(promtps)
     return userInput
 
 def guessInput(promtps):
@@ -81,7 +82,7 @@ chatacters and only allows one character
 at a time.
 """
     userInput = input(promtps).lower()
-    if userInput == "Quit":
+    if userInput == "quit":
         print("Thanks for playing game")
         return "quit game"
     if userInput == secret_word:
@@ -90,7 +91,7 @@ at a time.
         if userInput.isalpha():
             return userInput
         else:
-            return guessInput("Please input only analphabetical character")
+            return guessInput("Please input only aphabetical character")
     else:
         return guessInput("please only input one character")
 
@@ -142,7 +143,7 @@ def spaceman(secret_word):
             letters_guessed.append(userGuess)
             falseCount -= 1
             if falseCount == 0:
-                print(f"Dang you lost. Here's the word you tried for{secret_word}. You can always try again <3. I wish you luck in the next code you run!")
+                print(f"Dang you lost. Here's the word you were trying to guess: {secret_word}. You can always try again <3. I wish you luck in the next code you run!")
                 return spaceman(load_word())
             print(f"dang you guessed wrong. You have {falseCount} guesses left\n\n")
         elif letterCheck == True:
