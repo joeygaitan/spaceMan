@@ -50,6 +50,7 @@ def get_guessed_word(secret_word, letters_guessed):
             string += "-"
         else:
             string += secret_wordletter
+    print(string)
     return string
 
 # This function checks if the guess is one of the
@@ -57,7 +58,7 @@ def get_guessed_word(secret_word, letters_guessed):
 # a true value if so or a false if not
 def is_guess_in_word(guess, secret_word):
     # This is dictionary is for building an for the guess word. If the secret word 
-    guessDictionary = {}
+    # guessDictionary = {}
     for letter in secret_word:
         if guess == letter:
             return True
@@ -73,13 +74,15 @@ def userInputStart(promtps):
 # chatacters and only allows one character
 #  at a time.
 def guessInput(promtps):
-    userInput = input(promtps)
+    userInput = input(promtps).lower()
     if userInput == "Quit":
         print("Thanks for playing game")
         return "quit game"
+    if userInput == secret_word:
+        return True
     if len(userInput) <= 1 or "" != userInput:
         if userInput.isalpha():
-            return userInput.upper()
+            return userInput
         else:
             return guessInput("Please input only analphabetical character")
     else:
@@ -99,14 +102,13 @@ def selectStart(function_code):
         return True
 
 def spaceman(secret_word):
-
+    print(secret_word)
     letters_guessed = []
-    falseCount = 0
+    falseCount = 7
     runningIntro = True
     runningGame = True
     while runningIntro:
-        selections= userInputStart("""\n Hi Welcome to spaceman. press m if you would like to learn more about
-        the game and rules. Press P if you would like to Play. To Quit please press Q: """)
+        selections= userInputStart("\n Hi Welcome to spaceman. press m if you would like to learn\n more about the game and rules. Press P if you would like to Play. To Quit please press Q: ")
         runningIntro = selectStart(selections)
         if runningIntro == "Quit":
             runningIntro = False
@@ -117,27 +119,28 @@ def spaceman(secret_word):
         # 2 function calls. One displays the word with - where the user hasn't guessed yet. The other check if you won yet or not.
         wordDisplay = get_guessed_word(secret_word, letters_guessed)
         winCheck = is_word_guessed(secret_word, letters_guessed)
+        print(winCheck)
         print("\nIf you would like to quit simply type (quit Game)\n")
-        userGuess = guessInput(f"Please Guess an input\n Tries left: {falseCount}\n guess word {wordDisplay or ''}")
+        userGuess = guessInput(f"Please Guess an input\n Tries left: {falseCount}\n guess character {wordDisplay or ''}\n: ")
         letterCheck = is_guess_in_word(userGuess, secret_word)
         if userGuess == "Quit":
             print("\n Thanks for playing! \n")
             return spaceman(load_word())
-        elif falseCount == 7:
-            print(f"Dang you lost. Here's the word you tried for{secret_word}. You can always try again <3. I wish you luck in the next code you run!")
-            return spaceman(load_word())
         elif letterCheck == False:
             letters_guessed.append(userGuess)
-            falseCount += 1
-            print(f"dang you guessed wrong. You have {7-falseCount} guesses left\n\n")
+            falseCount -= 1
+            if falseCount == 7:e
+                print(f"Dang you lost. Here's the word you tried for{secret_word}. You can always try again <3. I wish you luck in the next code you run!")
+                return spaceman(load_word())
+            print(f"dang you guessed wrong. You have {falseCount} guesses left\n\n")
         elif letterCheck == True:
             letters_guessed.append(userGuess)
             print("Awesome you guessed right!")
-        elif letterCheck == "Double":
-            print("You typed  in  the same guess! I'll let it slide this time >:[")
-        elif winCheck == True:
+        elif winCheck == True or userGuess == True:
             print("Great scotts you won!!!!!")
             return spaceman(load_word())
+        elif letterCheck == "Double":
+            print("You typed  in  the same guess! I'll let it slide this time >:[")
         
 
         
@@ -151,4 +154,4 @@ def spaceman(secret_word):
 
 #These function calls that will start the game
 secret_word = load_word()
-print(spaceman(secret_word))
+spaceman(secret_word)
