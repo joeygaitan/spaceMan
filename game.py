@@ -11,6 +11,11 @@ def load_word():
     return secret_word
 
 def secret_word_dictionary_matrix_builder(secret_word, letters_guessed):
+    """
+    This function builds a matrix dictionary with two for loops filtering the secret_word string
+    into keys for the dictionary. Then it adds a number value for letters found in the list. This is
+    useful potentially for catching multiple duplicates or finding missing element. 
+    """
     # this is a dictionary to help check for inputs to  see if you won or not
     secretDictionary = {}
     # this for loop looks for characters key values  that arent in the dictionary ("a": 0)
@@ -24,9 +29,12 @@ def secret_word_dictionary_matrix_builder(secret_word, letters_guessed):
     return secretDictionary
 
 def is_word_guessed(secret_word, letters_guessed):
-
+    """
+    It is given an filtered dictionary with each guess checked already.
+    Then it looks for and zeros. If it finds a zero then the game is a still on.
+    If it finds no zeros then it returns true and you win
+    """
     secretDict = secret_word_dictionary_matrix_builder(secret_word, letters_guessed)
-    # This looks for the and zeros. If it finds a zero then the game is a still on
     for secret_wordletter in secret_word:
         if secretDict[secret_wordletter] == 0:
             secretDict.clear()
@@ -36,6 +44,11 @@ def is_word_guessed(secret_word, letters_guessed):
 
 # This shows the word you typed in or - if you didn't type anything
 def get_guessed_word(secret_word, letters_guessed):
+    """
+    It is given an filtered dictionary with each guess checked already.
+    Then it looks for any zeros inside of secretDict. If it finds any missing letter values a (zero) with a underscore
+    it adds it to string otherwise it adds in the value.
+    """
     secretDict = secret_word_dictionary_matrix_builder(secret_word, letters_guessed)
     string = ""
     #This looks for the zeros inside of secretDict so it can fill in the missing letter with a underscore
@@ -48,6 +61,11 @@ def get_guessed_word(secret_word, letters_guessed):
     return string
 
 def duplicate_check(guess, checkedLettersString):
+    """
+    This is given a cleared input guess character. After it checks if its already in there.
+    If it's in there then it gives return Double. Where a conditional in there
+    displays you already clicked that and reruns the while loop 
+    """
     for letter in checkedLettersString:
         if guess == letter:
             return "Double"
@@ -59,7 +77,6 @@ def is_guess_in_word(userGuess, secret_word):
     characters in the sectet word. It will return
     a true value if so or a false if not
     """
-
     for letter in secret_word:
         if userGuess == letter:
             return True
@@ -77,6 +94,8 @@ def guessInput(promtps):
     at a time.
     """
     userInput = input(promtps).lower()
+    if userInput == "play":
+        return "play"
     if userInput == "yes":
         return "yes"
     elif userInput == "no":
@@ -103,7 +122,7 @@ def selectStart(function_code):
     if function_code == "Man" or function_code == "man":
         print("\n The game is quite simple. You can guess a letter wrong 7 times until you fail. If you get it right it doesn't count as a guess. \n")
         return True
-    elif function_code ==  "yes" or function_code == "Yes":
+    elif function_code ==  "play" or function_code == "Play" or function_code == "p" or function_code == "P":
         return False
     elif function_code ==  "Quit" or function_code == 'quit':
         return "Quit"
@@ -112,13 +131,18 @@ def selectStart(function_code):
         return True
 
 def spaceman(secret_word):
+    """
+    Declared 2 integers, two lists, and two booleans. The letters_guessed will soon be invoking the letter_function.
+    The wrong_guessed will append whenever the user gets a false input.
+    the count is decremented everytime you get a wrong input with the false conditional.
+    """
     letters_guessed = []
     wrong_guessed = []
     falseCount = 7
     runningIntro = True
     runningGame = True
     while runningIntro:
-        selections= userInputStart("\n Hi Welcome to spaceman. press man if you would like to learn\n more about the game and rules. Type yes if you would like to Play. To Quit please type quit: ")
+        selections= userInputStart("\n Hi Welcome to spaceman. press man if you would like to learn\n more about the game and rules. Type Play if you would like to Play. To Quit please type quit: ")
         runningIntro = selectStart(selections)
         if runningIntro == "Quit":
             runningIntro = False
@@ -143,7 +167,7 @@ def spaceman(secret_word):
                     secret_word = load_word()
                     letters_guessed.clear()
                     wrong_guessed.clear()
-                    winInput = guessInput("If you would like to play again type yes. If you wouldn't type in no: ")
+                    winInput = guessInput("If you would like to play again type Play. If you wouldn't type in no: ")
                     if winInput == "yes":
                         print("Lets go Again!")
                     elif winInput == "no":
@@ -151,7 +175,7 @@ def spaceman(secret_word):
                         return ""
 
             elif duplicateCheckBoolean == "Double":
-                print("You typed  in  the same guess! I'll let it >:{")
+                print("You typed  in  the same guess! I'll let it slide this time >:{")
 
             elif letterCheck == True:
                 letters_guessed.append(userGuess)
@@ -171,14 +195,17 @@ def spaceman(secret_word):
                         return ""
 
             elif letterCheck == False and winCheck==False:
-                letters_guessed.append(userGuess)
-                wrong_guessed.append(userGuess)
-                falseCount -= 1
-                print(f"dang you guessed wrong. You have {falseCount} guesses left\n\n")
+                if len(userGuess) != 1 or "play" == userGuess or userGuess == "yes" or "no" == userGuess:
+                    print("\nNoty noty. You can't put that here >:(")
+                else:
+                    letters_guessed.append(userGuess)
+                    wrong_guessed.append(userGuess)
+                    falseCount -= 1
+                    print(f"dang you guessed wrong. You have {falseCount} guesses left\n\n")
 
-                if falseCount == 0:
-                    print(f"Dang you lost. Here's the word you were trying to guess: !!!{secret_word}!!!!. You can always try again <3. I wish you luck in the next code you run!")
-                    return spaceman(load_word())
+                    if falseCount == 0:
+                        print(f"Dang you lost. Here's the word you were trying to guess: !!!{secret_word}!!!!. You can always try again <3. I wish you luck in the next code you run!")
+                        return spaceman(load_word())
 
 #These function calls that will start the game
 secret_word = load_word() 
