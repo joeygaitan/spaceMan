@@ -77,7 +77,11 @@ def guessInput(promtps):
     at a time.
     """
     userInput = input(promtps).lower()
-    if userInput == "quit":
+    if userInput == "yes":
+        return "yes"
+    elif userInput == "no":
+        return "no"
+    elif userInput == "quit":
         print("Thanks for playing the game")
         return "quit"
     elif userInput == secret_word:
@@ -86,9 +90,9 @@ def guessInput(promtps):
         if userInput.isalpha():
             return userInput
         else:
-            return guessInput("Please input only aphabetical character: ")
+            return guessInput("Please input only aphabetical character\n Type your guess here: ")
     else:
-        return guessInput("please only input one character: ")
+        return guessInput("please only input one character\n Type your guess here: ")
 
 def selectStart(function_code):
     """
@@ -135,8 +139,17 @@ def spaceman(secret_word):
             return spaceman(load_word())
         else:
             if userGuess == True:
-                    print("\nGreat scotts you won!!!!!")
-                    return spaceman(load_word())
+                    print("Great scotts you won!!!!!")
+                    falseCount = 7
+                    secret_word = load_word()
+                    letters_guessed.clear()
+                    wrong_guessed.clear()
+                    winInput = guessInput("If you would like to play again type yes. If you wouldn't type in no: ")
+                    if winInput == "yes":
+                        print("Lets go Again!")
+                    elif winInput == "no":
+                        print("It was fun while it lasted")
+                        return ""
 
             elif duplicateCheckBoolean == "Double":
                 print("You typed  in  the same guess! I'll let it >:{")
@@ -147,7 +160,16 @@ def spaceman(secret_word):
                 winCheck = is_word_guessed(secret_word, letters_guessed)
                 if winCheck == True:
                     print("Great scotts you won!!!!!")
-                    return spaceman(load_word())
+                    falseCount = 7
+                    secret_word = load_word()
+                    letters_guessed.clear()
+                    wrong_guessed.clear()
+                    winInput = guessInput("If you would like to play again type yes. If you wouldn't type in no: ")
+                    if winInput == "yes":
+                        print("Lets go Again!")
+                    elif winInput == "no":
+                        print("It was fun while it lasted")
+                        return ""
 
             elif letterCheck == False and winCheck==False:
                 letters_guessed.append(userGuess)
