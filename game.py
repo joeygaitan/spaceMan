@@ -129,7 +129,6 @@ def spaceman(secret_word):
         # 2 function calls. One displays the word with - where the user hasn't guessed yet. The other check if you won yet or not.
         wordDisplay = get_guessed_word(secret_word, letters_guessed)
         winCheck = is_word_guessed(secret_word, letters_guessed)
-        print(secret_word , winCheck)
         print("\nIf you would like to quit simply type (quit)\n")
         userGuess = guessInput(f"Please Guess an input\nTries left: {falseCount}\nFree Tip: {wordDisplay}\nIncorrect Guesses: {wrong_guessed}\n\nPlease Guess Here: ")
         duplicateCheckBoolean = duplicate_check(userGuess, wordDisplay)
