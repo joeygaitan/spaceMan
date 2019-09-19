@@ -1,5 +1,6 @@
 #Inspired by spaceman project spec from make school. <3
 import random
+import os
 
 def load_word():
     f = open('words.txt', 'r')
@@ -45,7 +46,7 @@ def is_word_guessed(secret_word, letters_guessed):
 # This shows the word you typed in or - if you didn't type anything
 def get_guessed_word(secret_word, letters_guessed):
     """
-    It is given an filtered dictionary with each guess checked already.
+    It is given a filtered dictionary with each guess checked already.
     Then it looks for any zeros inside of secretDict. If it finds any missing letter values a (zero) with a underscore
     it adds it to string otherwise it adds in the value.
     """
@@ -209,4 +210,34 @@ def spaceman(secret_word):
 
 #These function calls that will start the game
 secret_word = load_word() 
-spaceman(secret_word)
+# spaceman(secret_word)
+
+#UNIT tests
+def test_is_word_guessed():
+    assert is_word_guessed("guess",["g","u","e","s"]) == True
+    assert is_word_guessed("guess", ["u","e","s"]) == False
+
+def test_get_guessed_word():
+    assert get_guessed_word("guess", ["e","s"]) == "--ess"
+    assert get_guessed_word("hanky", ["h","a","y"]) == "ha--y"
+    
+def test_is_guess_in_word():
+    assert is_guess_in_word("g", "guess") == True
+    assert is_guess_in_word("s", "please") == True
+    assert is_guess_in_word("l", "friend") == False
+
+def test_load_word():
+    assert load_word() != None
+
+def test_duplicate_check():
+    assert duplicate_check("l", ["s","p","f","l"]) == "Double"
+    assert duplicate_check("s", ["a","f", "r"]) == True 
+
+if __name__ == "__main__":
+    test()
+    test_is_word_guessed()
+    test_get_guessed_word()
+    test_is_guess_in_word()
+    test_load_word()
+    test_duplicate_check()
+    
